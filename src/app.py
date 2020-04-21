@@ -1,6 +1,7 @@
 import src.binary_tree as bt
 
 root = bt.build()
-result = bt.bf(6, root)
-if result:
-    print('Found {}'.format(result.val))
+bt.df_post_order(root)
+# result = bt.find_df(13, root)
+# if result:
+#     print('Found {}'.format(result.val))

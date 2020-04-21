@@ -30,10 +30,54 @@ def build() -> Node:
     )
 
 
-def find_df(val: int, node: Node) -> Optional[Node]:
-    """Finds a node by value given a root, using pre-order traversal"""
+def df_pre_order(node: Node) -> None:
+    """Uses pre-order traversal to traverse a tree"""
 
-    print('In {}'.format(node.val))
+    print('In {}'.format(node))
+    for child in [node.left, node.right]:
+        if not child:
+            continue
+        df_pre_order(child)
+
+
+def df_in_order(node: Node) -> None:
+    """Uses in-order traversal to traverse a tree"""
+
+    if node.left:
+        df_in_order(node.left)
+    print('In {}'.format(node))
+    if node.right:
+        df_in_order(node.right)
+
+
+def df_post_order(node: Node) -> None:
+    """Uses post-order traversal to traverse a tree"""
+
+    for child in [node.left, node.right]:
+        if not child:
+            continue
+        df_post_order(child)
+    print('In {}'.format(node))
+
+
+def bf(node: Node) -> None:
+    """Uses breadth-first traversal to traverse a tree"""
+    queue = deque([node])
+    while queue:
+        _bf(queue.popleft(), queue)
+
+
+def _bf(node: Node, queue: Deque) -> None:
+    print('In {}, queue={}'.format(node, ','.join(map(str, queue))))
+    for child in [node.left, node.right]:
+        if child:
+            queue.append(child)
+
+
+def find_df(val: int, node: Node) -> Optional[Node]:
+    """Finds a node by value given a root, using depth-first traversal"""
+
+    print('In {}'.format(node))
     if node.val == val:
         return node
     for child in [node.left, node.right]:
@@ -46,22 +90,20 @@ def find_df(val: int, node: Node) -> Optional[Node]:
     return None
 
 
-def bf(val: int, root: Node) -> Optional[Node]:
+def find_bf(val: int, root: Node) -> Optional[Node]:
+    """Finds a node by value given a root, using breadth-first traversal"""
     queue = deque([root])
     while queue:
-        result = find_bf(val, queue.popleft(), queue)
+        result = _find_bf(val, queue.popleft(), queue)
         if result:
             return result
 
 
-def find_bf(val: int, node: Node, queue: Deque) -> Optional[Node]:
-    """Finds a node by value, using breadth-first traversal"""
-
-    print('In {}, queue={}'.format(node.val, ','.join(map(str, queue))))
+def _find_bf(val: int, node: Node, queue: Deque) -> Optional[Node]:
+    print('In {}, queue={}'.format(node, ','.join(map(str, queue))))
     if node.val == val:
         return node
     for child in [node.left, node.right]:
-        # Push both left and right on a queue.
         if child:
             queue.append(child)
     return None
