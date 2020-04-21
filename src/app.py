@@ -1,7 +1,11 @@
-import src.binary_tree as bt
+import src.binary_search as bs
+arr = bs.build()
+idx = bs.search(arr, 200)
 
-root = bt.build()
-bt.df_post_order(root)
+# import src.binary_tree as bt
+# root = bt.build()
+# bt.df_post_order(root)
+
 # result = bt.find_df(13, root)
 # if result:
 #     print('Found {}'.format(result.val))
