@@ -1,5 +1,6 @@
-import src.astar_search as alg
+from src import graph
+from src.graph import djikstra
 
-nodes = alg.build_fixed()
-alg.print_2d(nodes)
-alg.path_djikstra(nodes)
+nodes = graph.build_fixed()
+graph.print_2d(nodes)
+djikstra.find_path(nodes)
