@@ -3,6 +3,13 @@ from typing import List, Type, Set
 MAX_DIST = 9999
 
 
+class PrimNode:
+    def __init__(self, name: str):
+        self.name = name
+        self.min_dist = MAX_DIST
+        self.parent = None
+
+
 class DjikstraNeighborsNode:
     def __init__(self, name: str):
         self.name = name
@@ -63,6 +70,8 @@ class Graph:
         self.node_cls = node_cls
         self.edges = {}
 
+        # Collect all of the names for which nodes need to be created.
+        node_names = set()
         for src, dest, weight in links:
             if src not in self.edges:
                 self.edges[src] = {}
@@ -72,9 +81,6 @@ class Graph:
                 self.edges[dest] = {}
             self.edges[dest][src] = weight
 
-        # Collect all of the names for which nodes need to be created.
-        node_names = set()
-        for src, dest, weight in links:
             node_names.add(src)
             node_names.add(dest)
 
@@ -84,6 +90,9 @@ class Graph:
 
     def get_neighbors(self, name: str):
         return self.edges[name].items()
+
+    def get_neighbor_nodes(self, name: str):
+        return map(lambda item: (self.nodes.get(item[0]), item[1]), self.edges[name].items())
 
     def get_node(self, name: str):
         return self.nodes.get(name)
