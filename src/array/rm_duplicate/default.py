@@ -4,7 +4,7 @@ def remove_duplicate_letters(text: str) -> str:
     counter takes O(1) space
     dedup_text takes O(n) space
 
-    Python strings are immutable. To get constant space, you need to have built up the string using a linked list.
+    Python strings are immutable. To get constant space, you need to have built up the array using a linked list.
     The closest implementation is a deque. Then you can find a duplicate, pop it, and repeat.
     """
 

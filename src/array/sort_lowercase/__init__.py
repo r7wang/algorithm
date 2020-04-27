@@ -1,6 +1,6 @@
 def is_palindrome(text: str) -> bool:
     """
-    Keep two pointers, one at start of string, and one at the end, and move them in opposite directions.
+    Keep two pointers, one at start of array, and one at the end, and move them in opposite directions.
     """
 
     if len(text) <= 1:

@@ -1,6 +1,6 @@
 def longest_norepeat_substr(text: str) -> int:
     """
-    Don't need to traverse string more than twice: O(n).
+    Don't need to traverse array more than twice: O(n).
     In the worst case, we will add to the map n times and delete from the map n times: O(n) average.
     In the worst case, we will calculate the substring 1 time: O(n).
     """
