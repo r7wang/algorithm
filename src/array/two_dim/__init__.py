@@ -35,7 +35,7 @@ def mult_2d_array(arr: List, factor: int) -> List:
 
 def mult_2d_array_in_place(arr: List, factor: int) -> None:
     """Multiplies all elements in a 2d array by a given factor (in-place)
-    Array dimensions must be rectangular.
+    No restriction on array dimensions.
     """
     len_1 = len(arr)
     for idx_1 in range(0, len_1):
