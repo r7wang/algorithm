@@ -29,6 +29,7 @@ def solve(n: int) -> int:
     calculations = 0
     for layer in range(1, n + 1):
         calculations += _solve_layer(n, layer, ways_to_visit)
+        del ways_to_visit[0]
     print('calculations: {}'.format(calculations))
     return ways_to_visit[n][0]
 
