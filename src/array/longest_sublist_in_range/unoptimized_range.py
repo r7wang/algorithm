@@ -1,3 +1,7 @@
+"""
+Find the longest contiguous sublist within an array where the difference between the maximum and minimum values in that
+sublist are no greater than max_range.
+"""
 from typing import List
 
 

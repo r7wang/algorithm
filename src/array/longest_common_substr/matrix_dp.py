@@ -1,3 +1,8 @@
+"""
+Find the longest common substring across two strings.
+"""
+
+
 def longest_common_substring(text_a: str, text_b: str) -> int:
     matrix = []
     for i in range(0, len(text_a)):

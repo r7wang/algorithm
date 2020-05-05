@@ -1,3 +1,8 @@
+"""
+Find the longest common substring across two strings.
+"""
+
+
 def longest_common_substring(text_a: str, text_b: str) -> int:
     """
     There are a substrings of length 1, a-1 substrings of length 2, ..., 1 substring of length a, for a total of up to

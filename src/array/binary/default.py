@@ -1,3 +1,9 @@
+"""
+Print out all characters within a string in their binary representation, where every character's integer value is the
+ordinal in the ASCII table.
+"""
+
+
 def to_binary(text: str) -> None:
     for letter in text:
         print(_binary(letter))

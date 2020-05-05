@@ -1,3 +1,8 @@
+"""
+Find the longest contiguous substring within a string where there are no repeating letters.
+"""
+
+
 def longest_norepeat_substr(text: str) -> int:
     """
     Don't need to traverse array more than twice: O(n).
