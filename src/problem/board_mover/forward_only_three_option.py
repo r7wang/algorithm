@@ -1,5 +1,5 @@
 """
-A piece starts at S, can only move to positions marked X1, before moving again with the same pattern.
+A piece starts at S, can only move to positions marked S1, before moving again with the same pattern.
 
     (X) 0   1   2   3
 (Y)     .   .   .   .
