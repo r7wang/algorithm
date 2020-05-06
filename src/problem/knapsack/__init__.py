@@ -1,5 +1,8 @@
 """
-Find the optimal value that can be fit in side a knapsack of size n.
+Find the optimal value that can be fit in side a knapsack of size n, when unconstrained on the number of any given item
+type.
+
+https://en.wikipedia.org/wiki/Knapsack_problem
 """
 from typing import Dict
 
