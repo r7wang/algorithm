@@ -35,14 +35,17 @@ Compliance:
                  <-- redirect to original request, set cookie with auth token
                  --> (gmail.com: get page w/ credentials)
                  <-- data: html/css/js for homepage
-                 render html/css/js --> (gmail.com: get last 50 messages)
-                                    <-- data: subject/body/attachment_ids for last 50 messages
-
+                 --> render html/css/js
+                        --> (gmail.com: get last 50 messages w/ credentials)
+                        <-- data: subject/body/attachment_ids for last 50 messages
+                 --> click attachment
+                        --> (gmail.com: get attachment by id w/ credentials)
+                        <-- data: attachment type and bytes
 (Gmail Service)
       API: mail.google.com/v1/
             - GET messages?messages=50&page=1 (get messages)
             - GET messages?messages=50&page=1&search=job,interview (search messages)
-            - GET attachments/<id> (dynamically loading attachments
+            - GET attachments/<id> (dynamically loading attachments)
             - POST messages (create message)
                 - {
                       subject: ...,
@@ -68,6 +71,11 @@ Compliance:
                 - Pick a database technology that is really fast at doing certain types of searches.
                     --> BigTable and Cloud Spanner are very good at prefix searches on extremely large data sets.
             - Schema
+                - user (replicated multi-region):
+                    - id: UUID
+                    - name: str (John Doe)
+                    - account_name: str (xyz@gmail.com)
+                    - region: str (us-east-1)
                 - emails_by_time: user_id:time:...
                     - Allows you to find the last n emails for a user with a single limited-range scan
                 - emails_by_id: user_id:email_id:...
@@ -76,6 +84,23 @@ Compliance:
                     - Allows you to easily find all emails where there was a specific keyword
                 - email_versions: email_id:version_id
                     - Allows for email migrations to happen piecemeal, only really required for mass migrations.
+
+            - Scaling
+                - Picked keys that typically start with user_id because we're likely going to be using a multi-tenant
+                  architecture where everyone's data is in the same data store.
+                - If we were to split out the data stores by user_id, there would be a lot of overhead and data skew
+                  depending on the type of user. We can be reasonably certain that across a wide pool of users, there
+                  will be some average load across multiple sets of users.
+                - user_id will make it very efficient to load data per user (the typical use case).
+                - user_id will eliminate data hotspots in a server because the data access patterns will be effectively
+                  random, provided that we have a randomized implementation of user_id (UUID, as opposed to incrementing
+                  an integer).
+
+            - Multi-Region
+                - We can likely establish clusters of servers tied to a home region, because users don't tend to move
+                  from region to region very frequently.
+                - user table can be replicated multi-region but may be too expensive to replicate email tables
+                  multi-region.
 
             - Get last n messages for user_id
                 - Scan emails_by_time with prefix user_id get last n rows, return data associated with those rows.
