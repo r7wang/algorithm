@@ -86,13 +86,13 @@ Constraints:
                 --> SQL
 
         - Schema
-            locations: id, latitude, longitude
-            hotels: id, name, description, location_id
-            rooms: id, hotel_id, name, description, pricing_strategy_id
-            pricing_strategy: id, metadata (json)
-            reservations: id, user_id, hotel_id, room_id, payment_id
-            reservation_days: reservation_id, day (date)
-            payments: id, amount
+            - locations: id, latitude, longitude
+            - hotels: id, name, description, location_id
+            - rooms: id, hotel_id, name, description, pricing_strategy_id
+            - pricing_strategy: id, metadata (json)
+            - reservations: id, user_id, hotel_id, room_id, payment_id
+            - reservation_days: reservation_id, day (date)
+            - payments: id, amount
 
         - Scaling
             - There are likely not nearly as many businesses as there are customers.

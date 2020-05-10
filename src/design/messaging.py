@@ -63,13 +63,27 @@ Constraints:
         }
 
     API: messaging.com/api/v1/
-        - images/<id> (gets a time-limited content url for content dumped to an S3 bucket)
+        - GET images/<id> (gets a time-limited content url for content dumped to an S3 bucket)
+        - POST users
+            - {
+                user_name: the_user_1,
+                email: bob@gmail.com,
+                password: ...,
+            }
+            - Service will likely have to check that a given IP or range isn't spamming user creation or a bot.
+        - GET users/<id>/profile
+            - {
+                ... # whatever information is relevant to this user
+            }
+            - The result payload may change depending on whether the user is requesting his own profile or someone
+              else's profile.
 
     Intermediaries:
         - We don't want clients talking directly to Kafka, but rather talking to services that can make requests on
           behalf of the client. These services are essentially more sophisticated load balancers / gateways.
             - Authentication
             - Load balancing (understand how many clients they're interacting with, and what channels they serve)
+            - Rate limiting
 
     Scaling:
       Groups / Channels
@@ -85,4 +99,30 @@ Constraints:
       1:1
         - Unlikely to have sufficient load to be problematic. All of these conversations can have their own topic and
           will likely not require more than 1 broker.
+
+    Database:
+        - SQL vs. NoSQL?
+            - No transactional requirements --> NoSQL
+            - Eventual consistency of of non-message data is okay --> NoSQL
+
+        - Schema
+            - users: id (UUID), name (str), alias (str)
+            - channels: id, description, visibility (enum)
+          BASIC: remember which channels the users were part of
+            - subscriptions: user_id, channel_id
+          ADVANCED: remember which channels the users were part of and also the last consumed timestamp
+            - subscriptions: user_id, channel_id, timestamp
+
+
+(Moderation Service):
+    - Hook into Kafka brokers for all channels and either sample (or read all) of the messages, before running some
+      kind of moderation function (text: regex, machine learning model, image: machine learning model, hash comparison
+      against known illegal images)
+    - Constantly update information about users that have been known to post illegal or offensive content.
+    - User information to scale up searches within other channels (if not already looking at all channels).
+    - Issue actions against specific users.
+    - A lot of processing around moderation can be expensive and may not run in a timely manner, hence the potential
+      need for heuristics to allow us to better redirect our search.
+    - Found illegal content has to be removed from the platform and archived for authorities. No easy way to delete
+      content from a Kafka topic but can identify set of content_ids that are illegal and should be skipped.
 """

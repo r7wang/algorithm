@@ -77,7 +77,7 @@ Compliance:
                 --> BigTable and Cloud Spanner are very good at prefix searches on extremely large data sets.
 
         - Schema
-            - user (replicated multi-region):
+            - users (replicated multi-region):
                 - id: UUID
                 - name: str (John Doe)
                 - account_name: str (xyz@gmail.com)
