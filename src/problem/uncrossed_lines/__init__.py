@@ -28,14 +28,13 @@ def uncrossed_lines(a: List[int], b: List[int]) -> int:
         matrix.append([0] * height)
 
     for x in range(width):
-        print('Row {} Value {}:'.format(x, a[x]))
         for y in range(height):
             _fill(matrix, x, y, a, b)
 
     return matrix[width-1][height-1]
 
 
-def _fill(matrix: List[List[int]], x: int, y: int, a: List[int], b: List[int]) -> bool:
+def _fill(matrix: List[List[int]], x: int, y: int, a: List[int], b: List[int]):
     left_val = _get_value_at(matrix, x - 1, y)
     top_val = _get_value_at(matrix, x, y - 1)
     if a[x] == b[y]:
