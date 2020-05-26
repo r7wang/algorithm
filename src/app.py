@@ -1,4 +1,6 @@
-from src.problem.expression_parsing import ExpressionSolver
+from src.problem.uncrossed_lines import uncrossed_lines
 
-solver = ExpressionSolver()
-print(solver.solve('(6*0)*(2-3)'))
+a = [4,4,4,2,4,1,4,3,2,4,4,2,2,2,5,2,5,4,5,1]
+b = [2,1,5,4,2,3,5,1,2,2]
+
+print(uncrossed_lines(a, b))
